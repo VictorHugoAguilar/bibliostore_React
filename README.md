@@ -1,3 +1,7 @@
+APLICACION DE GESTION DE BIBLIOTECA CON CRUD DE LIBROS, USUARIOS, UTILIZANDO FIRESTORE
+
+Applicación react, redux con acceso a datos en firestores.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
