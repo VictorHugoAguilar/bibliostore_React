@@ -1,10 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 // Importamos los componentes
+import  Navbar            from './components/layout/Navbar'
 import  EditarSuscriptor  from './components/suscriptores/editarSuscriptor';
-import  MostrarSuscriptor  from './components/suscriptores/mostrarSuscriptor';
-import  NuevoSuscriptor  from './components/suscriptores/nuevoSuscriptor';
-import  Suscriptores  from './components/suscriptores/suscriptores';
+import  MostrarSuscriptor from './components/suscriptores/mostrarSuscriptor';
+import  NuevoSuscriptor   from './components/suscriptores/nuevoSuscriptor';
+import  Suscriptores      from './components/suscriptores/suscriptores';
+
 
 // importamos router desde react-router-dom
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -12,16 +14,17 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
   return (
-    <Fragment>
     <Router>
-      <Switch>
-        <Route exact path="/suscriptores" component={Suscriptores}></Route>
-        <Route exact path="/suscriptores/nuevo" component={NuevoSuscriptor}></Route>
-        <Route exact path="/suscriptores/mostrar/:id" component={MostrarSuscriptor}></Route>
-        <Route exact path="/suscriptores/editar/:id" component={EditarSuscriptor}></Route>
-      </Switch>
+      <Navbar />
+      <div className="container">
+        <Switch>
+          <Route exact path="/suscriptores" component={Suscriptores} />
+          <Route exact path="/suscriptores/nuevo" component={NuevoSuscriptor} />
+          <Route exact path="/suscriptores/mostrar/:id" component={MostrarSuscriptor} />
+          <Route exact path="/suscriptores/editar/:id" component={EditarSuscriptor} />
+        </Switch>
+      </div>
     </Router>
-    </Fragment>
   );
 }
 
