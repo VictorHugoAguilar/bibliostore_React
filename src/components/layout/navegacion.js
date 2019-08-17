@@ -3,15 +3,15 @@ import React from "react";
 // importamos link para ruteo
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navegacion = () => {
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
-                <navbar className="navbar navbar-light">
+                <nav className="navbar navbar-light">
                     <span className="navbar-brand mb-0 h1">
                         Gestión de Biblioteca
                     </span>
-                </navbar>
+                </nav>
                 <button
                     className="navbar-toggler"
                     type="button"
@@ -43,4 +43,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default Navegacion;

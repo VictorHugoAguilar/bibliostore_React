@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Importamos los componentes
-import  Navbar            from './components/layout/Navbar'
+import  Navegacion            from './components/layout/navegacion'
 import  EditarSuscriptor  from './components/suscriptores/editarSuscriptor';
 import  MostrarSuscriptor from './components/suscriptores/mostrarSuscriptor';
 import  NuevoSuscriptor   from './components/suscriptores/nuevoSuscriptor';
@@ -15,7 +15,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 function App() {
   return (
     <Router>
-      <Navbar />
+      <Navegacion />
       <div className="container">
         <Switch>
           <Route exact path="/suscriptores" component={Suscriptores} />
