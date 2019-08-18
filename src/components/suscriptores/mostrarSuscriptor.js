@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/spinner";
-import Swal from "sweetalert2";
 import PropTypes from "prop-types";
 
 const MostrarSuscriptor = props => {
