@@ -5,7 +5,7 @@ import { firestoreConnect } from "react-redux-firebase";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/spinner";
 import Swal from "sweetalert2";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const Suscriptores = ({ suscriptores, firestore }) => {
     // console.log(suscriptores);
@@ -40,7 +40,6 @@ const Suscriptores = ({ suscriptores, firestore }) => {
                             "Suscriptor eliminado con éxito.",
                             "success"
                         );
-                        
                     })
                     .catch(error => {
                         // console.log(error);
@@ -112,7 +111,7 @@ const Suscriptores = ({ suscriptores, firestore }) => {
 Suscriptores.propTypes = {
     firestore: PropTypes.object.isRequired,
     suscriptores: PropTypes.array
-}
+};
 
 export default compose(
     firestoreConnect([{ collection: "suscriptores" }]),
