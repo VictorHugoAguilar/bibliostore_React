@@ -7,9 +7,49 @@ import Spinner from "../layout/spinner";
 import Swal from "sweetalert2";
 import PropTypes from "prop-types";
 
-const Libros = ({ libros }) => {
+const Libros = ({ libros, firestore }) => {
     if (!libros) return <Spinner />;
     // console.log(libros);
+
+    const eliminarLibro = id => {
+        // console.log(id);
+
+        Swal.fire({
+            title: "Estás seguro?",
+            text: "Las eliminaciones no se pueden revertir!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, eliminarlo",
+            cancelButtonText: "Cancelar"
+        }).then(result => {
+            if (result.value) {
+                // eliminar libro de firestore
+                firestore
+                .delete({
+                    collection: "libros",
+                    doc: id
+                })
+                .then(resultado => {
+                    // console.log(resultado);
+                    Swal.fire(
+                        "Eliminado!",
+                        "Suscriptor eliminado con éxito.",
+                        "success"
+                    );
+                })
+                .catch(error => {
+                    // console.log(error);
+                    Swal.fire({
+                        type: "error",
+                        title: "Oops...",
+                        text: error
+                    });
+                });
+            }
+        });
+    };
 
     return (
         <div className="row">
@@ -55,6 +95,7 @@ const Libros = ({ libros }) => {
                                 <button
                                     className="btn btn-danger ml-2"
                                     type="button"
+                                    onClick={() => eliminarLibro(libro.id)}
                                 >
                                     <i className="fas fa-trash" /> Eliminar
                                 </button>

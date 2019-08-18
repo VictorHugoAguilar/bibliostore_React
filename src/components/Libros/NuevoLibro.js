@@ -10,9 +10,45 @@ class NuevoLibro extends Component {
         titulo: "",
         ISBN: "",
         editorial: "",
-        existencias: 0
+        existencias: ""
     };
 
+    // guardar el libro en la base de datos
+    agregarLibro = e => {
+        e.preventDefault();
+
+        // tomar una copia del state
+        const nuevoLibro = this.state;
+
+        // agregar un arreglo de interesados
+        nuevoLibro.prestados = [];
+
+        // extraer firestore con sus métodos
+        const { firestore, history } = this.props;
+
+        // añadirlo a la base de datos y redireccionar
+        firestore
+            .add({ collection: "libros" }, nuevoLibro)
+            .then(respuesta => {
+                // console.log(respuesta);
+                Swal.fire(
+                    "Añadido!",
+                    "Se ha añadido correctamente!",
+                    "success"
+                );
+                history.push("/");
+            })
+            .catch(error =>
+                Swal.fire({
+                    type: "error",
+                    title: "Oops...",
+                    text: "No se ha podido insertar!",
+                    footer: error
+                })
+            );
+    };
+
+    // almacena lo que le usuario escribe en el state
     leerDato = e => {
         this.setState({
             [e.target.name]: e.target.value
@@ -32,7 +68,7 @@ class NuevoLibro extends Component {
                 </div>
                 <div className="row justify-content-center ">
                     <div className="col-md-8 mt-2">
-                        <form>
+                        <form onSubmit={this.agregarLibro}>
                             <div className="form-group">
                                 <label>Titulo: </label>
                                 <input
@@ -75,10 +111,10 @@ class NuevoLibro extends Component {
                                     type="number"
                                     min="0"
                                     className="form-control"
-                                    name="existencia"
+                                    name="existencias"
                                     placeholder="Cantidad en Existencia"
                                     required
-                                    value={this.state.existencia}
+                                    value={this.state.existencias}
                                     onChange={this.leerDato}
                                 />
                             </div>
