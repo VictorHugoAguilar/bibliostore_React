@@ -27,13 +27,13 @@ const Navegacion = () => {
                 <div className="collapse navbar-collapse" id="navbarColor01">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item">
-                            <Link to={"/suscriptores"} className="nav-link">
-                                Suscriptores
+                            <Link to={"/"} className="nav-link">
+                                Libros
                             </Link>
                         </li>
                         <li className="nav-item">
                             <Link to={"/suscriptores"} className="nav-link">
-                                Libros
+                                Suscriptores
                             </Link>
                         </li>
                     </ul>

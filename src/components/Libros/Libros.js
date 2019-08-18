@@ -54,7 +54,7 @@ const Libros = ({ libros, firestore }) => {
     return (
         <div className="row">
             <div className="col-12 mb-4">
-                <Link to="/libros/nuevo" className="btn btn-secondary">
+                <Link to="/libros/nuevo" className="btn btn-success">
                     <i className="fas fa-plus" /> Nuevo Libro
                 </Link>
             </div>
