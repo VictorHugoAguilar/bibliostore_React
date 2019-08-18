@@ -63,7 +63,7 @@ const Suscriptores = ({ suscriptores, firestore }) => {
             </div>
             <div className="col-md-8">
                 <h2>
-                    <i className="fas fa-user" /> Suscriptores
+                    <i className="fas fa-users" /> Suscriptores
                 </h2>
             </div>
             <table className="table table-striped mt-4">

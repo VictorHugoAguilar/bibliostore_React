@@ -57,7 +57,6 @@ class NuevoSuscriptor extends Component {
             [e.target.name]: e.target.value
         });
     };
-    static propTypes: { firestore: any };
 
     render() {
         return (
