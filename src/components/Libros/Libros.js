@@ -27,26 +27,26 @@ const Libros = ({ libros, firestore }) => {
             if (result.value) {
                 // eliminar libro de firestore
                 firestore
-                .delete({
-                    collection: "libros",
-                    doc: id
-                })
-                .then(resultado => {
-                    // console.log(resultado);
-                    Swal.fire(
-                        "Eliminado!",
-                        "Suscriptor eliminado con éxito.",
-                        "success"
-                    );
-                })
-                .catch(error => {
-                    // console.log(error);
-                    Swal.fire({
-                        type: "error",
-                        title: "Oops...",
-                        text: error
+                    .delete({
+                        collection: "libros",
+                        doc: id
+                    })
+                    .then(resultado => {
+                        // console.log(resultado);
+                        Swal.fire(
+                            "Eliminado!",
+                            "Suscriptor eliminado con éxito.",
+                            "success"
+                        );
+                    })
+                    .catch(error => {
+                        // console.log(error);
+                        Swal.fire({
+                            type: "error",
+                            title: "Oops...",
+                            text: error
+                        });
                     });
-                });
             }
         });
     };

@@ -15,9 +15,9 @@ class MostrarLibro extends Component {
         if (!libro) return <Spinner />;
 
         // boton para solicitar un libro
-        let btnPrestamo=null;
+        let btnPrestamo = null;
 
-        if ( (libro.existencias - libro.prestados.length) > 0) {
+        if (libro.existencias - libro.prestados.length > 0) {
             btnPrestamo = (
                 <Link
                     to={`/libros/prestamo/${libro.id}`}
