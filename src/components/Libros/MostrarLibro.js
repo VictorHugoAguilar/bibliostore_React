@@ -8,6 +8,9 @@ import PropTypes from "prop-types";
 
 class MostrarLibro extends Component {
     state = {};
+
+    devolverLibro = codigo => {};
+
     render() {
         // extraer el libro
         const { libro } = this.props;
@@ -65,6 +68,47 @@ class MostrarLibro extends Component {
                     </p>
                     {/* Boton para solicitar prestamos si hay disponible  */}
                     {btnPrestamo}
+
+                    {/* Mostrar las personas que tengan el libro */}
+                    <h3 className="my-2">Libros presatados a: </h3>
+                    {libro.prestados.map(prestado => (
+                        <div key={prestado.codigo} className="card my-2">
+                            <h4 className="card-header">
+                                {prestado.nombre} {prestado.apellido}
+                            </h4>
+                            <div className="card-body">
+                                <p>
+                                    <span className="font-weight-bold">
+                                        Código:{" "}
+                                    </span>
+                                    {prestado.codigo}
+                                </p>
+                                <p>
+                                    <span className="font-weight-bold">
+                                        Carrera:{" "}
+                                    </span>
+                                    {prestado.carrera}
+                                </p>
+                                <p>
+                                    <span className="font-weight-bold">
+                                        Fecha Solicitud:{" "}
+                                    </span>
+                                    {prestado.fecha_solicitud}
+                                </p>
+                            </div>
+                            <div className="card-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-info font-weight-bold"
+                                    onClick={() =>
+                                        this.devolverLibro(prestado.codigo)
+                                    }
+                                >
+                                    Realizar devolución
+                                </button>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         );

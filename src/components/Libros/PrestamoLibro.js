@@ -62,11 +62,55 @@ class PrestamoLibro extends Component {
     };
 
     // Almacenar el codigo en el state
-
     leerDato = e => {
         this.setState({
             [e.target.name]: e.target.value
         });
+    };
+
+    // Almacenar los datos del alumno para solicitar el libro
+    solicitarPrestamo = () => {
+        // console.log("entrando en prestamos")
+        const suscriptor = this.state.resultado;
+
+        // fecha de alta
+        suscriptor.fecha_solicitud = new Date().toLocaleDateString();
+
+        // obtener el libro
+        const libroActualizado = this.props.libro;
+
+        // agregar el suscriptor al libro
+        libroActualizado.prestados.push(suscriptor);
+
+        // obtener firestore y history de props
+        const { firestore, history, libro } = this.props;
+
+        // almacenar en la base de datos
+        firestore
+            .update(
+                {
+                    collection: "libros",
+                    doc: libro.id
+                },
+                libroActualizado
+            )
+            .then(respuesta => {
+                Swal.fire(
+                    "Prestado!",
+                    "Se ha prestado correctamente!",
+                    "success"
+                );
+                history.push("/");
+            })
+            .catch(error => {
+                // console.log(error);
+                Swal.fire({
+                    type: "error",
+                    title: "Oops...",
+                    text: "No se ha podido insertar!",
+                    footer: error
+                });
+            });
     };
 
     render() {
@@ -86,7 +130,7 @@ class PrestamoLibro extends Component {
                 <button
                     type="button"
                     className="btn btn-success btn-block"
-                    onclick={this.solicitarPrestamo}
+                    onClick={this.solicitarPrestamo}
                 >
                     Solicitar Prestamo
                 </button>
