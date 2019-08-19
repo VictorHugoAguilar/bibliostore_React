@@ -58,6 +58,8 @@ class EditarLibro extends Component {
             });
     };
 
+    solicitarPrestamo = () => {};
+
     render() {
         // obtener el libro
         const { libro } = this.props;
@@ -134,6 +136,7 @@ class EditarLibro extends Component {
                                     value="Editar Libro"
                                 />
                             </form>
+                        
                         </div>
                     </div>
                 </div>
