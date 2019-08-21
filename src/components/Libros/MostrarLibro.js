@@ -5,11 +5,53 @@ import { firestoreConnect } from "react-redux-firebase";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/spinner";
 import PropTypes from "prop-types";
+import Swal from "sweetalert2";
 
 class MostrarLibro extends Component {
-    state = {};
+    devolverLibro = id => {
+        // console.log(id);
+        // extraer firestore
+        const { firestore, history } = this.props;
 
-    devolverLibro = codigo => {};
+        // copia del libro
+        const libroActualizado = { ...this.props.libro };
+
+        // eliminar la persona que realiza la devolucion de prestados
+        const prestados = libroActualizado.prestados.filter(
+            elemento => elemento.codigo !== id
+        );
+
+        libroActualizado.prestados = prestados;
+
+        // actualizar en firestore
+        firestore
+            .update(
+                {
+                    collection: "libros",
+                    doc: libroActualizado.id
+                },
+                libroActualizado
+            )
+            .then(respuesta => {
+                // console.log(respuesta);
+                // console.log("id" + libroActualizado.id)
+                Swal.fire(
+                    "Devuelto!",
+                    "Se ha devuelto correctamente!",
+                    "success"
+                );
+                history.push(`/libros/mostrar/${libroActualizado.id}`);
+            })
+            .catch(error => {
+                // console.error(error)
+                Swal.fire({
+                    type: "error",
+                    title: "Oops...",
+                    text: "No se ha podido insertar!",
+                    footer: error
+                });
+            });
+    };
 
     render() {
         // extraer el libro
