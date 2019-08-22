@@ -8,10 +8,12 @@ import Swal from "sweetalert2";
 import PropTypes from "prop-types";
 import FichaSuscriptor from "../suscriptores/FichaSuscriptor";
 
+// REDUX ACTION
+import { buscarUsuario } from "../../actions/buscarUsuarioActions";
+
 class PrestamoLibro extends Component {
     state = {
         busqueda: "",
-        resultado: {},
         noResultados: false
     };
 
@@ -23,7 +25,7 @@ class PrestamoLibro extends Component {
         const { busqueda } = this.state;
 
         // extraer firestore
-        const { firestore } = this.props;
+        const { firestore, buscarUsuario } = this.props;
 
         // hacer la consulta
         const coleccion = firestore.collection("suscriptores");
@@ -33,17 +35,23 @@ class PrestamoLibro extends Component {
             .then(respuesta => {
                 // console.log(respuesta);
                 if (respuesta.empty) {
-                    // no hay resultados
+                    // almacenar en redux un objeto vacio
+                    buscarUsuario({});
+                    // no hay resultados actualiza el estate
+
                     this.setState({
-                        noResultados: true,
-                        resultado: {}
+                        noResultados: true
                     });
                 } else {
                     // si hay resultados
                     const datos = respuesta.docs[0];
                     // console.log(datos.data());
+
+                    // colocar resultado en redux
+                    buscarUsuario(datos.data());
+
+                    // hay resultados actualiza el estate
                     this.setState({
-                        resultado: datos.data(),
                         noResultados: false
                     });
                 }
@@ -71,19 +79,36 @@ class PrestamoLibro extends Component {
     // Almacenar los datos del alumno para solicitar el libro
     solicitarPrestamo = () => {
         // console.log("entrando en prestamos")
+
+        const {usuario} = this.props;
+
         const suscriptor = this.state.resultado;
 
         // fecha de alta
-        suscriptor.fecha_solicitud = new Date().toLocaleDateString();
+        usuario.fecha_solicitud = new Date().toLocaleDateString();
 
         // obtener el libro
-        const libroActualizado = this.props.libro;
+        // const libroActualizado = this.props.libro;
 
         // agregar el suscriptor al libro
-        libroActualizado.prestados.push(suscriptor);
+        // libroActualizado.prestados.push(usuario);
+
+        // no se pueden mutar los props tomar una copia y crear un arreglo nuevo
+        let prestados = [];
+
+        prestados=[...this.props.libro.prestados, usuario]
+
+        // copiar el objeto y agregar los prestados
+        const libro = {...this.props.libro};
+
+        // eliminar los prestado anteriores
+        delete libro.prestados;
+
+        // asignar los nuevos
+        libro.prestados = prestados;
 
         // obtener firestore y history de props
-        const { firestore, history, libro } = this.props;
+        const { firestore, history } = this.props;
 
         // almacenar en la base de datos
         firestore
@@ -92,7 +117,7 @@ class PrestamoLibro extends Component {
                     collection: "libros",
                     doc: libro.id
                 },
-                libroActualizado
+                libro
             )
             .then(respuesta => {
                 Swal.fire(
@@ -121,11 +146,11 @@ class PrestamoLibro extends Component {
         if (!libro) return <Spinner />;
 
         // extraer los datos del alumno
-        const { noResultado, resultado } = this.state;
+        const { usuario } = this.props;
 
         let fichaAlumno, btnSolicitar;
-        if (resultado.nombre) {
-            fichaAlumno = <FichaSuscriptor alumno={resultado} />;
+        if (usuario.nombre) {
+            fichaAlumno = <FichaSuscriptor alumno={usuario} />;
             btnSolicitar = (
                 <button
                     type="button"
@@ -197,7 +222,11 @@ export default compose(
             doc: props.match.params.id
         }
     ]),
-    connect(({ firestore: { ordered } }, props) => ({
-        libro: ordered.libro && ordered.libro[0]
-    }))
+    connect(
+        ({ firestore: { ordered }, usuario }, props) => ({
+            libro: ordered.libro && ordered.libro[0],
+            usuario: usuario
+        }),
+        { buscarUsuario }
+    )
 )(PrestamoLibro);

@@ -5,6 +5,9 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 
+/** Custom Reducers */
+import buscarUsuarioReducer from './reducers/buscarUsuarioReducers';
+
 // Configurar firestore
 
 // Your web app's Firebase configuration
@@ -35,7 +38,8 @@ const createStoreWithFirebase = compose(
 // Reducers
 const rootReducer = combineReducers({
     firebase: firebaseReducer,
-    firestore: firestoreReducer
+    firestore: firestoreReducer,
+    usuario: buscarUsuarioReducer
 });
 
 // state inicial
