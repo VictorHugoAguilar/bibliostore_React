@@ -80,7 +80,7 @@ class PrestamoLibro extends Component {
     solicitarPrestamo = () => {
         // console.log("entrando en prestamos")
 
-        const {usuario} = this.props;
+        const { usuario } = this.props;
 
         const suscriptor = this.state.resultado;
 
@@ -96,10 +96,10 @@ class PrestamoLibro extends Component {
         // no se pueden mutar los props tomar una copia y crear un arreglo nuevo
         let prestados = [];
 
-        prestados=[...this.props.libro.prestados, usuario]
+        prestados = [...this.props.libro.prestados, usuario];
 
         // copiar el objeto y agregar los prestados
-        const libro = {...this.props.libro};
+        const libro = { ...this.props.libro };
 
         // eliminar los prestado anteriores
         delete libro.prestados;
@@ -165,6 +165,24 @@ class PrestamoLibro extends Component {
             btnSolicitar = null;
         }
 
+        // extraemos del state
+        const { noResultados } = this.state;
+
+        // Mostrar mensaje de error
+        let mensajeResultado = "";
+        if (noResultados) {
+            mensajeResultado = (
+                <div className="alert alert-danger mt-4">
+                    <h4 className="text-center">
+                        No hay resultados en la busqueda{" "}
+                        <i className="fas fa-search" />
+                    </h4>
+                </div>
+            );
+        } else {
+            mensajeResultado = null;
+        }
+
         return (
             <div className="row">
                 <div className="col-md-6 mb-4">
@@ -199,6 +217,7 @@ class PrestamoLibro extends Component {
                                     value="Buscar alumno"
                                 />
                             </form>
+                            {mensajeResultado}
                             {/* Muestra la ficha del alumno y el boton para solicitar el préstamo */}
                             {fichaAlumno}
                             {btnSolicitar}
